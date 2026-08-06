@@ -81,10 +81,33 @@
     letter-spacing:-0.01em;
   }
   .brandmark span{color:var(--tomato);}
-  nav.links{display:flex; gap:22px; font-size:0.92rem; font-weight:600;}
-  nav.links a{text-decoration:none; opacity:0.85;}
+  nav.links{display:flex; gap:20px; align-items:center; font-size:0.92rem; font-weight:600;}
+  nav.links a{text-decoration:none; opacity:0.7; transition:opacity 0.15s ease, color 0.15s ease;}
   nav.links a:hover{opacity:1; text-decoration:underline wavy var(--mustard);}
+  nav.links a.active{
+    opacity:1;
+    color:var(--tomato);
+  }
   @media (max-width:640px){ nav.links{display:none;} }
+
+  .nav-play-btn{
+    font-family:'Space Mono', monospace;
+    font-weight:700;
+    font-size:0.8rem;
+    padding:8px 14px;
+    border-radius:20px;
+    border:2px solid var(--ink);
+    background:var(--tomato);
+    color:#FFFCF4;
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    box-shadow:2px 2px 0 var(--ink);
+    transition: transform 0.15s ease;
+  }
+  .nav-play-btn:hover{ transform:translate(-1px,-1px); box-shadow:3px 3px 0 var(--ink); }
+  .nav-play-btn:active{ transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink); }
 
   /* ---------- HERO ---------- */
   .hero{
@@ -158,34 +181,81 @@
   .menu ul{margin:10px 0 0; padding-left:18px; font-size:0.95rem;}
   .menu li{margin-bottom:4px;}
 
-  /* ---------- EXPERIENCE ---------- */
-  .xp-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:22px;
+  /* ---------- CLIENTS (logos) ---------- */
+  .clients-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    align-items:center;
   }
-  @media (max-width:800px){ .xp-grid{grid-template-columns:1fr;} }
-  .xp-card{position:relative;}
-  .xp-card .badge{
+  .client-logo{
+    position:relative;
+    width:76px;
+    height:76px;
+    cursor:pointer;
+  }
+  .client-logo .client-circle{
+    width:100%;
+    height:100%;
+    border-radius:50%;
+    overflow:hidden;
+    border:1.5px solid var(--ink);
+    background:var(--paper-card);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:2px 2px 0 rgba(43,38,32,0.12);
+    transition:transform 0.15s ease, box-shadow 0.15s ease;
+  }
+  .client-logo:hover .client-circle,
+  .client-logo.open .client-circle{
+    transform:translate(-1px,-1px);
+    box-shadow:3px 3px 0 rgba(43,38,32,0.18);
+  }
+  .client-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .client-fallback{
     font-family:'Space Mono', monospace;
-    font-size:0.7rem;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    padding:4px 10px;
-    border-radius:20px;
-    display:inline-block;
-    margin-bottom:14px;
     font-weight:700;
-  }
-  .badge.winter{background:#dfeaf2; color:#2c5470;}
-  .badge.summer{background:#fbe3c9; color:#8a4a14;}
-  .xp-card h3{font-size:1.25rem;}
-  .xp-card p{font-size:0.95rem; color:rgba(43,38,32,0.85);}
-  .xp-meta{
-    font-family:'Space Mono', monospace;
-    font-size:0.8rem;
+    font-size:0.68rem;
     color:var(--plum);
-    margin-top:10px;
+    text-align:center;
+    padding:4px;
+  }
+  .client-tooltip{
+    position:absolute;
+    bottom:112%;
+    left:50%;
+    transform:translateX(-50%) translateY(6px);
+    background:var(--ink);
+    color:var(--paper);
+    font-family:'Space Mono', monospace;
+    font-size:0.72rem;
+    padding:6px 11px;
+    border-radius:6px;
+    white-space:nowrap;
+    opacity:0;
+    pointer-events:none;
+    transition:opacity 0.18s ease, transform 0.18s ease;
+    z-index:5;
+  }
+  .client-tooltip::after{
+    content:"";
+    position:absolute;
+    top:100%;
+    left:50%;
+    transform:translateX(-50%);
+    border:5px solid transparent;
+    border-top-color:var(--ink);
+  }
+  .client-logo:hover .client-tooltip,
+  .client-logo.open .client-tooltip{
+    opacity:1;
+    transform:translateX(-50%) translateY(0);
   }
 
   /* ---------- GALERIE / CARROUSEL ---------- */
@@ -350,59 +420,6 @@
     color:rgba(43,38,32,0.6);
   }
 
-  /* ---------- EASTER EGGS ---------- */
-  .egg{
-    position:absolute;
-    width:30px;
-    height:30px;
-    border-radius:50%;
-    background:var(--mustard);
-    border:2px solid var(--ink);
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:0.85rem;
-    box-shadow:2px 2px 0 var(--ink);
-    transition:transform 0.15s ease;
-    z-index:20;
-  }
-  .egg:hover{transform:scale(1.12) rotate(-6deg);}
-  .egg-bubble{
-    position:absolute;
-    bottom:120%;
-    left:50%;
-    transform:translateX(-50%) translateY(6px);
-    width:max-content;
-    max-width:240px;
-    background:var(--ink);
-    color:var(--paper);
-    font-family:'Space Mono', monospace;
-    font-size:0.78rem;
-    padding:10px 14px;
-    border-radius:6px;
-    opacity:0;
-    pointer-events:none;
-    transition: opacity 0.18s ease, transform 0.18s ease;
-  }
-  .egg-bubble::after{
-    content:"";
-    position:absolute;
-    top:100%;
-    left:50%;
-    transform:translateX(-50%);
-    border:6px solid transparent;
-    border-top-color:var(--ink);
-  }
-  .egg.open .egg-bubble{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-  }
-
-  .egg-hero{top:-6px; right:8px;}
-  .egg-services{bottom:-14px; left:14px;}
-  .egg-footer{top:-46px; right:50%; margin-right:-15px;}
-
   ::selection{background:var(--mustard); color:var(--ink);}
 
   @media (prefers-reduced-motion: reduce){
@@ -415,7 +432,6 @@
      pour ne jamais entrer en collision avec le reste du site.
      ================================================================ */
 
-  /* --- bouton flottant --- */
   .gm-fab{
     position:fixed;
     left:18px;
@@ -461,7 +477,6 @@
   .gm-fab-label.show{ opacity:1; transform:translateX(0); }
   @media (max-width:640px){ .gm-fab-label{ display:none; } }
 
-  /* --- modale --- */
   .gm-modal-overlay{
     position:fixed;
     inset:0;
@@ -520,7 +535,6 @@
   }
   .gm-close:active{ transform:translate(1px,1px); box-shadow:1px 1px 0 var(--ink); }
 
-  /* --- HUD du jeu --- */
   .gm-top{
     width:100%;
     display:flex;
@@ -627,10 +641,11 @@
     <div class="brandmark">Le G <span>-</span> Presta</div>
     <nav class="links">
       <a href="#services">Services</a>
-      <a href="#experience">Expérience</a>
+      <a href="#clients">Clients</a>
       <a href="#galerie">Galerie</a>
       <a href="#apropos">À propos</a>
       <a href="#contact">Contact</a>
+      <button class="nav-play-btn" id="navPlayBtn">🍲 Jouer</button>
     </nav>
   </div>
 </header>
@@ -644,15 +659,8 @@
     </p>
     <div class="cta-row">
       <a class="btn btn-primary" href="tel:+33699474458">📞 06 99 47 44 58</a>
-      <a class="btn btn-primary" href="mail:guilhem.gandriaut@lilo.org">💻 guilhem.gandriaut@lilo.org</a>
+      <a class="btn btn-primary" href="mailto:guilhem.gandriaut@lilo.org">💻 guilhem.gandriaut@lilo.org</a>
       <a class="btn btn-ghost" href="#contact">Voir les coordonnées</a>
-    </div>
-
-    <!-- œuf caché #1 -->
-    <div class="egg egg-hero" tabindex="0" role="button" aria-label="Œuf caché"
-         data-slogan="Avec le G - Presta, tout est extra !">
-      🥚
-      <div class="egg-bubble">Avec le G - Presta, tout est extra !</div>
     </div>
   </div>
 </section>
@@ -694,38 +702,44 @@
           <li>Toujours calme et de bonne humeur</li>
         </ul>
       </div>
-
-      <!-- œuf caché #2 -->
-      <div class="egg egg-services" tabindex="0" role="button" aria-label="Œuf caché"
-           data-slogan="Le G - Presta, la presta qui met la patata.">
-        🥚
-        <div class="egg-bubble">Le G - Presta, la presta qui met la patata.</div>
-      </div>
     </div>
   </div>
 </section>
 
-<section id="experience">
+<section id="clients">
   <div class="wrap">
     <div class="section-head">
-      <span class="tag">Sur le terrain</span>
-      <h2>Le froid, le chaud, et tout ce qui va avec</h2>
+      <span class="tag">Ils me recommandent</span>
+      <h2>Ils m'ont fait confiance</h2>
     </div>
-    <div class="xp-grid">
-      <div class="note xp-card">
-        <span class="badge winter">❄ Hiver</span>
-        <h3>Les Traîtres — Saison 7 (M6)</h3>
-        <p>Tournage dans le Doubs, en mars, sous la neige. Les conditions hivernales
-        ne me font pas peur.</p>
-        <div class="xp-meta">Mars · Doubs</div>
+
+    <!--
+      Pour ajouter un client : copiez un bloc .client-logo, changez data-name,
+      le texte de .client-tooltip, et le chemin de l'image src vers
+      images/clients/votre-fichier.png (ou .jpg). Le rond fera toujours la
+      même taille (76x76px), quelle que soit la taille/format d'origine du
+      logo, grâce à object-fit:cover.
+    -->
+    <div class="clients-row">
+
+      <div class="client-logo" data-name="L'Ogre Catering" tabindex="0" role="button" aria-label="L'Ogre Catering">
+        <div class="client-circle">
+          <img src="images/clients/ogre-catering.png" alt="Logo L'Ogre Catering"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <span class="client-fallback" style="display:none;">Ogre<br>Catering</span>
+        </div>
+        <div class="client-tooltip">L'Ogre Catering</div>
       </div>
-      <div class="note xp-card">
-        <span class="badge summer">☀ Été</span>
-        <h3>« Roxie : au milieu » — Long métrage</h3>
-        <p>Tournage à Tarare et alentours, avec des journées à 40°C.
-        Les conditions estivales ne me font pas peur non plus.</p>
-        <div class="xp-meta">Mai – Juillet · Tarare</div>
+
+      <div class="client-logo" data-name="Collectif 23:59" tabindex="0" role="button" aria-label="Collectif 23:59">
+        <div class="client-circle">
+          <img src="images/clients/collectif-2359.png" alt="Logo Collectif 23:59"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+          <span class="client-fallback" style="display:none;">23:59</span>
+        </div>
+        <div class="client-tooltip">Collectif 23:59</div>
       </div>
+
     </div>
   </div>
 </section>
@@ -835,6 +849,7 @@
       <p>Lyon, et le reste de la France</p>
       <div class="contact-info">
         <a href="tel:+33699474458">📞 06 99 47 44 58</a>
+        <a href="mailto:guilhem.gandriaut@lilo.org">💻 guilhem.gandriaut@lilo.org</a>
         <span>📍 Lyon</span>
         <!-- Remplacer le lien ci-dessous par votre profil Instagram -->
         <a href="#" target="_blank" rel="noopener">📷 Instagram</a>
@@ -845,26 +860,13 @@
 
 <footer>
   <div class="wrap">
-    Le G - Presta · Guilhem Gandriaut · 3 œufs cachés sur cette page, à vous de les trouver
+    Le G - Presta · Guilhem Gandriaut · Lyon &amp; partout en France
   </div>
 </footer>
 
-<!-- œuf caché #3 -->
-<div class="egg egg-footer" tabindex="0" role="button" aria-label="Œuf caché"
-     data-slogan="Le G - Presta, le G du génie, le P du panache.">
-  🥚
-  <div class="egg-bubble">Le G - Presta, le G du génie, le P du panache.</div>
-</div>
-
-<!-- ================================================================
-     BOUTON FLOTTANT DU JEU — visible et fixe partout sur la page
-     ================================================================ -->
 <button class="gm-fab" id="gmFab" aria-label="Jouer à Space Catering">🍲</button>
 <div class="gm-fab-label" id="gmFabLabel">Jouer à Space Catering</div>
 
-<!-- ================================================================
-     MODALE DU MINI-JEU — SPACE CATERING
-     ================================================================ -->
 <div class="gm-modal-overlay" id="gmModalOverlay">
   <div class="gm-modal-backdrop" id="gmModalBackdrop"></div>
   <div class="gm-modal-panel">
@@ -899,20 +901,48 @@
 </div>
 
 <script>
-  document.querySelectorAll('.egg').forEach(function(egg){
-    function toggle(){ egg.classList.toggle('open'); }
-    egg.addEventListener('click', toggle);
-    egg.addEventListener('keypress', function(e){
-      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(); }
+(function(){
+  /* ====================================================
+     Navigation active au scroll (scrollspy)
+     ==================================================== */
+  const navLinks = Array.from(document.querySelectorAll('nav.links a[href^="#"]'));
+  const sections = navLinks
+    .map(a => document.querySelector(a.getAttribute('href')))
+    .filter(Boolean);
+
+  function updateActiveNav(){
+    const scrollPos = window.scrollY + 130;
+    let currentId = sections[0] ? sections[0].id : '';
+    sections.forEach(sec => {
+      if(scrollPos >= sec.offsetTop) currentId = sec.id;
     });
-    document.addEventListener('click', function(e){
-      if(!egg.contains(e.target)) egg.classList.remove('open');
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + currentId);
+    });
+  }
+  window.addEventListener('scroll', updateActiveNav, {passive:true});
+  window.addEventListener('resize', updateActiveNav);
+  updateActiveNav();
+
+  /* ====================================================
+     Logos clients — tooltip au survol / au tap
+     ==================================================== */
+  document.querySelectorAll('.client-logo').forEach(function(logo){
+    function toggle(e){
+      e.stopPropagation();
+      const wasOpen = logo.classList.contains('open');
+      document.querySelectorAll('.client-logo.open').forEach(l => l.classList.remove('open'));
+      if(!wasOpen) logo.classList.add('open');
+    }
+    logo.addEventListener('click', toggle);
+    logo.addEventListener('keypress', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); toggle(e); }
     });
   });
-</script>
+  document.addEventListener('click', function(){
+    document.querySelectorAll('.client-logo.open').forEach(l => l.classList.remove('open'));
+  });
 
-<script>
-(function(){
   /* ====================================================
      Carrousel photo — swipe tactile + flèches + points
      ==================================================== */
@@ -943,7 +973,6 @@
   prevBtn.addEventListener('click', () => goTo(index - 1));
   nextBtn.addEventListener('click', () => goTo(index + 1));
 
-  // swipe tactile / souris
   let startX = 0, deltaX = 0, dragging = false;
 
   track.addEventListener('pointerdown', e => {
@@ -983,6 +1012,7 @@
   const overlay = document.getElementById('gmModalOverlay');
   const backdrop = document.getElementById('gmModalBackdrop');
   const closeBtn = document.getElementById('gmClose');
+  const navPlayBtn = document.getElementById('navPlayBtn');
 
   let fabLabelTimeout;
   function pulseFabLabel(){
@@ -997,9 +1027,6 @@
     document.body.style.overflow = 'hidden';
     fabLabel.classList.remove('show');
     resizeCanvas();
-    if(!gmStarted){
-      /* écran d'accueil déjà visible par défaut */
-    }
   }
   function closeModal(){
     overlay.classList.remove('open');
@@ -1008,6 +1035,7 @@
 
   fab.addEventListener('click', openModal);
   fab.addEventListener('mouseenter', pulseFabLabel);
+  navPlayBtn.addEventListener('click', openModal);
   closeBtn.addEventListener('click', closeModal);
   backdrop.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => {
@@ -1226,7 +1254,6 @@
     ctx.stroke();
     ctx.restore();
 
-    /* étiquette "Le G - Presta" sur le corps de la marmite */
     ctx.save();
     ctx.globalAlpha = 0.62;
     ctx.font = "800 9px 'Bricolage Grotesque', sans-serif";
